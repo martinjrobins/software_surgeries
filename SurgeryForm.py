@@ -13,5 +13,4 @@ class SurgeryForm(FlaskForm):
     body = TextField('How we can help', [
         DataRequired(),
         Length(min=4, message=('Your message is too short.'))])
-    recaptcha = RecaptchaField()
     submit = SubmitField('Submit')
