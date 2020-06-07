@@ -11,7 +11,6 @@ CALENDER_NAME = 'OxRSE bookings'
 
 # create web app
 app = Flask(__name__, instance_relative_config=False)
-# app.config.from_object('config.Config')
 app.config.from_pyfile('config.cfg')
 
 # create google calendar api service
