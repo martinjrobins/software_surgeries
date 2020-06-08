@@ -9,7 +9,7 @@ class SurgeryForm(FlaskForm):
     email = StringField('Email', [
         Email(message=('Not a valid email address.')),
         DataRequired()])
-    date = SelectField('Date', validators=[InputRequired()])
+    date = SelectField('Date (click to choose from available dates)', validators=[InputRequired()])
     body = TextField('How we can help', [
         DataRequired(),
         Length(min=4, message=('Your message is too short.'))])

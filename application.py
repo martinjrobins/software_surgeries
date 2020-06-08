@@ -5,6 +5,9 @@ import google.oauth2.credentials
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 
+import requests
+import copy
+
 import flask
 import logging
 import iso8601
@@ -49,7 +52,8 @@ def authorize():
         # apps.
         access_type='offline',
         # Enable incremental authorization. Recommended as a best practice.
-        include_granted_scopes='true')
+        include_granted_scopes='true'
+    )
 
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
@@ -77,7 +81,7 @@ def oauth2callback():
     credentials = flow.credentials
     flask.session['credentials'] = credentials_to_dict(credentials)
 
-    return flask.redirect(flask.url_for(''))
+    return flask.redirect('/')
 
 
 @app.route('/revoke')
@@ -95,17 +99,16 @@ def revoke():
 
   status_code = getattr(revoke, 'status_code')
   if status_code == 200:
-    return('Credentials successfully revoked.' + print_index_table())
+    return('Credentials successfully revoked.')
   else:
-    return('An error occurred.' + print_index_table())
+    return('An error occurred.')
 
 
 @app.route('/clear')
 def clear_credentials():
   if 'credentials' in flask.session:
     del flask.session['credentials']
-  return ('Credentials have been cleared.<br><br>' +
-          print_index_table())
+  return ('Credentials have been cleared.')
 
 
 def credentials_to_dict(credentials):
@@ -198,14 +201,14 @@ def booking():
                    form.email.data,
                    form.body.data)
 
-        return redirect(url_for('success'))
+        return flask.redirect(flask.url_for('success'))
 
-    return render_template('booking.html', form=form)
+    return flask.render_template('booking.html', form=form)
 
 
 @app.route('/success', methods=('GET', 'POST'))
 def success():
-    return render_template('success.html')
+    return flask.render_template('success.html')
 
 
 if __name__ == '__main__':
