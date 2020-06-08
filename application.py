@@ -178,8 +178,10 @@ def booking():
 
     calender = get_calender(service, CALENDER_NAME)
     events = []
-    while len(events) < 10:
+    num_requests = 0
+    while num_requests < 5 and len(events) < 10:
         potential_events = get_upcoming_events(service, calender['id'])
+        num_requests += 1
         events += [e for e in potential_events
                    if not e['summary'].startswith(BOOKED_PREFIX)]
 
