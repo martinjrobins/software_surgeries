@@ -34,7 +34,7 @@ def get_upcoming_events(service, calenderId):
     # 'Z' indicates UTC time
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     events_result = service.events().list(calendarId=calenderId, timeMin=now,
-                                          maxResults=10, singleEvents=True,
+                                          maxResults=100, singleEvents=True,
                                           orderBy='startTime').execute()
     return events_result.get('items', [])
 
@@ -66,13 +66,10 @@ def booking():
     service = googleapiclient.discovery.build(
         'calendar', 'v3', credentials=credentials)
 
-    events = []
-    num_requests = 0
-    while num_requests < 5 and len(events) < 10:
-        potential_events = get_upcoming_events(service, CALENDER_ID)
-        num_requests += 1
-        events += [e for e in potential_events
-                   if not e['summary'].startswith(BOOKED_PREFIX)]
+    potential_events = get_upcoming_events(service, CALENDER_ID)
+    events = [e for e in potential_events
+              if not e['summary'].startswith(BOOKED_PREFIX)]
+    events = events[:10]
 
     form = SurgeryForm()
     choices = []
