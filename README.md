@@ -11,5 +11,5 @@ python application.py
 
 ## Deploy
 
-Need to add flask config file `config.cfg` and google credentials file 
-`credentials.json` before deployment
+Need to add flask config file `config.cfg` and service account credentials 
+`service_account.json` before deployment
