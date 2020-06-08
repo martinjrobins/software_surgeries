@@ -14,12 +14,14 @@ import iso8601
 
 from SurgeryForm import SurgeryForm
 
-logging.basicConfig(filename='booking.log', level=logging.DEBUG)
+logging.basicConfig(filename='booking.log', level=logging.INFO)
 
 SCOPES = [
     'https://www.googleapis.com/auth/calendar.events',
     'https://www.googleapis.com/auth/calendar.readonly',
 ]
+
+BOOKED_PREFIX = "BOOKED: "
 
 
 # If modifying these scopes, delete the file token.pickle.
@@ -150,9 +152,8 @@ def book_event(service, calender_id, event, name, email, description):
         [{
             "displayName": name,
             "email": email,
-            "responseStatus": "accepted",
         }],
-        "summary": "BOOKED: " + event['summary'],
+        "summary": BOOKED_PREFIX + event['summary'],
         "description": description,
     })
 
@@ -176,7 +177,11 @@ def booking():
       'calendar', 'v3', credentials=credentials)
 
     calender = get_calender(service, CALENDER_NAME)
-    events = get_upcoming_events(service, calender['id'])
+    events = []
+    while len(events) < 10:
+        potential_events = get_upcoming_events(service, calender['id'])
+        events += [e for e in potential_events
+                   if not e['summary'].startswith(BOOKED_PREFIX)]
 
     form = SurgeryForm()
     choices = []
