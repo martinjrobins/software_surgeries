@@ -8,9 +8,9 @@
 <div class="form-field">
   {{ field.label }} 
   {{ field(**kwargs)|safe }}
-  {% if form.name.errors %}
+  {% if field.errors %}
     <ul class="errors">
-      {% for error in form.name.errors %}
+      {% for error in field.errors %}
         <li>{{ error }}</li>
       {% endfor %}
     </ul>
@@ -20,17 +20,7 @@
 
 {% block content %}
 <div class="formwrapper">
-  <h2 class="title">Booking
-    {% if form.errors %}
-      <div class="form-field">
-      <ul class="errors">
-        {% for error in form.errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-  </h2>
+  <h2 class="title">Booking</h2>
   <form id="contact" method="POST" action="/">
     {{ form.hidden_tag() }}
     {{ render_field(form.name) }}
