@@ -1,4 +1,5 @@
 import datetime
+import os
 
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
@@ -28,7 +29,7 @@ app = flask.Flask(__name__, instance_relative_config=False)
 app.config.from_pyfile('config.cfg')
 
 
-app.route('/authorize')
+@app.route('/authorize')
 def authorize():
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow
@@ -208,4 +209,11 @@ def success():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # When running locally, disable OAuthlib's HTTPs verification.
+    # ACTION ITEM for developers:
+    #     When running in production *do not* leave this option enabled.
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+    # Specify a hostname and port that are set as a valid redirect URI
+    # for your API project in the Google API Console.
+    app.run('localhost', 8080, debug=True)
