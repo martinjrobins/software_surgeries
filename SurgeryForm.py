@@ -7,7 +7,7 @@ class SurgeryForm(FlaskForm):
     name = StringField('Name', [DataRequired()])
 
     affiliation = StringField(
-        'Affiliation',
+        'Affiliation (Please specify department and research group)',
         [DataRequired()],
         description='Please specify department and research group.'
     )
@@ -19,14 +19,13 @@ class SurgeryForm(FlaskForm):
 
     how = TextAreaField('How might we be able to help?', [DataRequired()])
     other = TextAreaField(
-        'Other useful information',
-        [Optional()],
-        description='If there is anything we might find useful to see'
+        'If there is anything we might find useful to see'
         ' before we meet, such as links to software (if public),'
-        ' user guides etc, please provide links here'
+        ' user guides etc, please provide links here',
+        [Optional()]
     )
 
-    date = SelectField('Date',
+    date = SelectField('Date (click to choose from available dates)',
                        validators=[InputRequired()],
                        description='click to choose from available dates')
     where = StringField('Where did you hear about the Software Surgeries?',

@@ -89,7 +89,7 @@ def book_event(service, calender_id, event, form):
     end_date = iso8601.parse_date(event['end']['dateTime'])
     date_readable = \
         '{}: {} - {}'.format(
-            start_date.strftime("%A %d. %B %Y"),
+            start_date.strftime("%A %d %B %Y"),
             start_date.strftime("%H:%M"),
             end_date.strftime("%H:%M")
         )
@@ -134,7 +134,10 @@ def book_event(service, calender_id, event, form):
                             body=body).execute()
     url = '/repos/{}/{}/issues'.format(GITHUB_OWNER, GITHUB_REPO)
     payload = {
-        "title": "{} ({})".format(form.name.data, form.affiliation.data),
+        "title": "{}: {} ({})".format(
+            date_readable,
+            form.name.data, form.affiliation.data
+        ),
         "body": markdown,
         "assignees": [
         ],
