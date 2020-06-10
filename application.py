@@ -187,7 +187,7 @@ def booking():
         choices.append((
             e['id'],
             '{}: {} - {}'.format(
-                start_date.strftime("%A %d. %B %Y"),
+                start_date.strftime("%A %d %B %Y"),
                 start_date.strftime("%H:%M"),
                 end_date.strftime("%H:%M")
             )))
