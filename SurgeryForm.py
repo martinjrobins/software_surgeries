@@ -1,16 +1,34 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, TextField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Length, Email, InputRequired
+from wtforms import StringField, TextField, SubmitField, SelectField, TextAreaField
+from wtforms.validators import DataRequired, Length, Email, InputRequired, Optional
+
 
 class SurgeryForm(FlaskForm):
-    """Contact form."""
-    name = StringField('Name', [
-        DataRequired()])
-    email = StringField('Email', [
+    name = StringField('Name', [DataRequired()])
+
+    affiliation = StringField(
+        'Affiliation',
+        [DataRequired()],
+        description='Please specify department and research group.'
+    )
+    email = StringField('Email address', [
         Email(message=('Not a valid email address.')),
         DataRequired()])
-    date = SelectField('Date (click to choose from available dates)', validators=[InputRequired()])
-    body = TextField('How we can help', [
-        DataRequired(),
-        Length(min=4, message=('Your message is too short.'))])
+    description = TextAreaField('Short description of your software', [
+        DataRequired()])
+
+    how = TextAreaField('How might we be able to help?', [DataRequired()])
+    other = TextAreaField(
+        'Other useful information',
+        [Optional()],
+        description='If there is anything we might find useful to see'
+        ' before we meet, such as links to software (if public),'
+        ' user guides etc, please provide links here'
+    )
+
+    date = SelectField('Date',
+                       validators=[InputRequired()],
+                       description='click to choose from available dates')
+    where = StringField('Where did you hear about the Software Surgeries?',
+                        [Optional()])
     submit = SubmitField('Submit')

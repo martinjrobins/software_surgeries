@@ -20,13 +20,23 @@
 
 {% block content %}
 <div class="formwrapper">
-  <h2 class="title">Booking</h2>
+  <h2 class="title">Oxford RSE Software Surgery Bookings</h2>
+  <p>Please use the form below to request a slot at one of our remote software
+    surgeries.</p>
+  <p>More details: <a>https://www.rse.ox.ac.uk/software-surgeries/</a></p>
   <form id="contact" method="POST" action="/">
     {{ form.hidden_tag() }}
+    <h3 class="title">About you</h3>
     {{ render_field(form.name) }}
+    {{ render_field(form.affiliation) }}
     {{ render_field(form.email) }}
+    <h3 class="title">About your software</h3>
+    {{ render_field(form.description) }}
+    {{ render_field(form.how) }}
+    {{ render_field(form.other) }}
+    <h3 class="title">Booking</h3>
     {{ render_field(form.date) }}
-    {{ render_field(form.body) }}
+    {{ render_field(form.where) }}
     {{ form.submit }}
   </form>
 </div>
