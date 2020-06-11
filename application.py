@@ -76,7 +76,11 @@ def get_upcoming_events(service, calenderId):
     logging.debug('Get upcoming events')
     # 'Z' indicates UTC time
     now = datetime.datetime.utcnow().isoformat() + 'Z'
+    two_months_from_now = (
+        datetime.datetime.utcnow() + datetime.timedelta(days=60)
+    ).isoformat() + 'Z'
     events_result = service.events().list(calendarId=calenderId, timeMin=now,
+                                          timeMax=two_months_from_now,
                                           maxResults=100, singleEvents=True,
                                           orderBy='startTime').execute()
     return events_result.get('items', [])
@@ -124,6 +128,7 @@ def book_event(service, calender_id, event, form):
     body = copy.copy(event)
     body.update({
         "summary": BOOKED_PREFIX + event['summary'],
+        "colorId": '11',
         "description": markdown
     })
 

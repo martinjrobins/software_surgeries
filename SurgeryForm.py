@@ -25,9 +25,13 @@ class SurgeryForm(FlaskForm):
         [Optional()]
     )
 
-    date = SelectField('Date (click to choose from available dates)',
-                       validators=[InputRequired()],
+    date = SelectField('Click to choose from available dates, if none are'
+                       ' shown we are booked out for the next two months,'
+                       ' please try again later.',
+                       validators=[
+                           InputRequired()],
                        description='click to choose from available dates')
     where = StringField('Where did you hear about the Software Surgeries?',
                         [Optional()])
+    recaptcha = RecaptchaField()
     submit = SubmitField('Submit')
